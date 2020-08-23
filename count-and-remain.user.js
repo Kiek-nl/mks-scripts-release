@@ -156,6 +156,7 @@ function check_vehicle_name(vehicle_name,numbers_onway){
             break;
         case 'Waterongevallenaanhangers':
         case 'Waterongevallenaanhanger ':
+        case 'Waterongevallenaanhanger':
             woaneeds = numbers_onway - woa;
             break;
         case "Officieren van Dienst - Brandweer":
