@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Count and remain
 // @namespace       http://tampermonkey.net/
-// @version         1.6
+// @version         1.7
 // @description     Script om te zien welke voertuigen aanrijdend zijn en welke nog nodig zijn
 // @author          Kiek
 // @include         https://www.meldkamerspel.com/missions/*
@@ -40,6 +40,8 @@ var ato = 0;
 var atc = 0;
 var atm = 0;
 var polheli = 0;
+var dbbike = 0;
+var dbav = 0
 
 var ambu = 0;
 var zambu = 0;
@@ -56,8 +58,7 @@ var atoneeds = 0;
 var atcneeds = 0;
 var atmneeds = 0;
 var polhelineeds = 0;
-var dbbike = 0;
-var dbav = 0
+var dbbikeneeds = 0;
 
 var tsneeds = 0;
 var rvneeds = 0;
@@ -97,7 +98,7 @@ if($('#mission_vehicle_driving > tbody > tr').length > 0){
             $('#missing_text').after('<div class="alert alert-warning" id="vehicleambuodw">Geneeskundevoertuigen onderweg: '+ (ambu > 0 ? ambu + ' Ambulance, ': '') +' '+ (zambu > 0 ? zambu + ' Zorgambulance, ': '') +' '+ (rr > 0 ? rr + ' Rapid Responder, ': '') +' '+ (ovdg > 0 ? ovdg + ' Officier van Dienst Geneeskunde, ': '') +' '+ (mmt > 0 ? mmt + ' MMT auto en/of Heli, ': '') +'</div>');
         }
 
-        if(nh > 0 || polheli > 0 || hond > 0 || ato > 0 || atc > 0 || atm > 0 || ovdp > 0 || meco > 0 || meflex > 0 || tst > 0 || rv > 0 || hv > 0 || daovd > 0 || dahod > 0 || co > 0 || ab > 0 || daags > 0 || pmwvd > 0 || sl > 0 || afoosc > 0 || ct > 0 || wo > 0 || woa > 0){
+        if(nh > 0 || dbbike > 0 || polheli > 0 || hond > 0 || ato > 0 || atc > 0 || atm > 0 || ovdp > 0 || meco > 0 || meflex > 0 || tst > 0 || rv > 0 || hv > 0 || daovd > 0 || dahod > 0 || co > 0 || ab > 0 || daags > 0 || pmwvd > 0 || sl > 0 || afoosc > 0 || ct > 0 || wo > 0 || woa > 0 || dbav > 0){
             $('#missing_text').after('<div class="alert alert-info" id="vehicleodw">Voertuigen onderweg: '+ (nh > 0 ? nh + ' Noodhulpeenheden, ': '') +' '+ (polheli > 0 ? polheli + ' Politiehelikopter, ': '') +' '+ (ovdp > 0 ? ovdp + ' Officieren van Dienst - Politie, ': '') +' '+ (tst > 0 ? tst + ' Tankautospuiten, ': '') +' '+ (rv > 0 ? rv + ' Redvoertuigen, ': '') +' '+ (hv > 0 ? hv + ' Hulpverleningsvoertuig, ': '') +' '+ (ab > 0 ? ab + ' Adembeschermingsvoertuig of haakarmbak, ': '') +' '+ (sl > 0 ? sl + ' Slangenwagen, watertankwagen of gelijkwaardige haakarmbak, ': '') +' '+ (wo > 0 ? wo + ' Waterongevallenvoertuigen / Oppervlaktereddingsteams, ': '') +' '+ (woa > 0 ? woa + ' Waterongevallenaanhangers, ': '') +' '+ (daovd > 0 ? daovd + ' Officieren van Dienst - Brandweer, ': '') +' '+ (ct > 0 ? ct + ' Crashtenders, ': '') +' '+ (afoosc > 0 ? afoosc + ' AFO/OSCs, ': '') +' '+ (hond > 0 ? hond + ' Hondengeleiders, ': '') +' '+ (ato > 0 ? ato + ' AT-Operator, ': '') +' '+ (atc > 0 ? atc + ' AT-Commandant, ': '') +' '+ (atm > 0 ? atm + ' AT-Materiaalwagen, ': '') +' '+ (meflex > 0 ? meflex + ' ME Groepsvoertuigen, ': '') +' '+ (meco > 0 ? meco + ' ME Commandovoertuigen, ': '') +' '+ (dahod > 0 ? dahod + ' Hoofd Officieren van Dienst, ': '') +' '+ (co > 0 ? co + ' Commandowagens, ': '') +' '+ (pmwvd > 0 ? pmwvd + ' Verkenningseenheden, ': '') +' '+ (daags > 0 ? daags + ' Adviseurs Gevaarlijke Stoffen, ': '') +' '+ (davl > 0 ? davl + ' Voorlichters, ': '') +' '+ (dbbike > 0 ? dbbike + ' Biketeams, ': '') +' '+ (dbav > 0 ? dbav + ' Dienstbus Arrestantenvervoer, ': '') +'</div>');
         }
     }
@@ -120,8 +121,8 @@ if($('#mission_vehicle_driving > tbody > tr').length > 0){
             vehiclename = vehiclename.replace('.', '');
             check_vehicle_name(vehiclename,numbers_onway);
         }
-        if(nhneeds > 0 || polhelineeds > 0 || hondneeds > 0 || atoneeds > 0 || atcneeds > 0 || atmneeds > 0 || ovdpneeds > 0 || meconeeds > 0 || meflexneeds > 0 || tsneeds > 0 || rvneeds > 0 || hvneeds > 0 || daovdneeds > 0 || dahodneeds > 0 || coneeds > 0 || abneeds > 0 || daagsneeds > 0 || pmwvdneeds > 0 || slneeds > 0 || afooscneeds > 0 || ctneeds > 0 || woneeds > 0 || woaneeds > 0 || ambuneeds > 0||davlneeds > 0){
-            $('#missing_text').after('<div class="alert alert-warning" id="vehicleneeds">Voertuigen nodig: '+ (nhneeds > 0 ? nhneeds + ' Noodhulpeenheden, ': '') +' '+ (polhelineeds > 0 ? polhelineeds + ' Politiehelikopter, ': '') +' '+ (ovdpneeds > 0 ? ovdpneeds + ' Officieren van Dienst - Politie, ': '') +' '+ (tsneeds > 0 ? tsneeds + ' Tankautospuiten, ': '') +' '+ (rvneeds > 0 ? rvneeds + ' Redvoertuigen, ': '') +' '+ (hvneeds > 0 ? hvneeds + ' Hulpverleningsvoertuig, ': '') +' '+ (abneeds > 0 ? abneeds + ' Adembeschermingsvoertuig of haakarmbak, ': '') +' '+ (slneeds > 0 ? slneeds + ' Slangenwagen, watertankwagen of gelijkwaardige haakarmbak, ': '') +' '+ (woneeds > 0 ? woneeds + ' Waterongevallenvoertuigen / Oppervlaktereddingsteams, ': '') +' '+ (woaneeds > 0 ? woaneeds + ' Waterongevallenaanhangers, ': '') +' '+ (daovdneeds > 0 ? daovdneeds + ' Officieren van Dienst - Brandweer, ': '') +' '+ (ctneeds > 0 ? ctneeds + ' Crashtenders, ': '') +' '+ (afooscneeds > 0 ? afooscneeds + ' AFO/OSCs, ': '') +' '+ (hondneeds > 0 ? hondneeds + ' Hondengeleiders, ': '') +' '+ (atoneeds > 0 ? atoneeds + ' AT-Operator, ': '') +' '+ (atcneeds > 0 ? atcneeds + ' AT-Commandant, ': '') +' '+ (atmneeds > 0 ? atmneeds + ' AT-Materiaalwagen, ': '') +' '+ (meflexneeds > 0 ? meflexneeds + ' ME Groepsvoertuigen, ': '') +' '+ (meconeeds > 0 ? meconeeds + ' ME Commandovoertuigen, ': '') +' '+ (dahodneeds > 0 ? dahodneeds + ' Hoofd Officieren van Dienst, ': '') +' '+ (coneeds > 0 ? coneeds + ' Commandowagens, ': '') +' '+ (pmwvdneeds > 0 ? pmwvdneeds + ' Verkenningseenheden, ': '') +' '+ (daagsneeds > 0 ? daagsneeds + ' Adviseurs Gevaarlijke Stoffen, ': '') +' '+ (davlneeds > 0 ? davlneeds + ' Voorlichters, ': '') +' '+ (ambuneeds > 0 ? ambuneeds + ' Ambulances, ': '') +'</div>');
+        if(nhneeds > 0 || dbbikeneeds > 0 || polhelineeds > 0 || hondneeds > 0 || atoneeds > 0 || atcneeds > 0 || atmneeds > 0 || ovdpneeds > 0 || meconeeds > 0 || meflexneeds > 0 || tsneeds > 0 || rvneeds > 0 || hvneeds > 0 || daovdneeds > 0 || dahodneeds > 0 || coneeds > 0 || abneeds > 0 || daagsneeds > 0 || pmwvdneeds > 0 || slneeds > 0 || afooscneeds > 0 || ctneeds > 0 || woneeds > 0 || woaneeds > 0 || ambuneeds > 0|| davlneeds > 0){
+            $('#missing_text').after('<div class="alert alert-warning" id="vehicleneeds">Voertuigen nodig: '+ (nhneeds > 0 ? nhneeds + ' Noodhulpeenheden, ': '') +' '+ (polhelineeds > 0 ? polhelineeds + ' Politiehelikopter, ': '') +' '+ (ovdpneeds > 0 ? ovdpneeds + ' Officieren van Dienst - Politie, ': '') +' '+ (tsneeds > 0 ? tsneeds + ' Tankautospuiten, ': '') +' '+ (rvneeds > 0 ? rvneeds + ' Redvoertuigen, ': '') +' '+ (hvneeds > 0 ? hvneeds + ' Hulpverleningsvoertuig, ': '') +' '+ (abneeds > 0 ? abneeds + ' Adembeschermingsvoertuig of haakarmbak, ': '') +' '+ (slneeds > 0 ? slneeds + ' Slangenwagen, watertankwagen of gelijkwaardige haakarmbak, ': '') +' '+ (woneeds > 0 ? woneeds + ' Waterongevallenvoertuigen / Oppervlaktereddingsteams, ': '') +' '+ (woaneeds > 0 ? woaneeds + ' Waterongevallenaanhangers, ': '') +' '+ (daovdneeds > 0 ? daovdneeds + ' Officieren van Dienst - Brandweer, ': '') +' '+ (ctneeds > 0 ? ctneeds + ' Crashtenders, ': '') +' '+ (afooscneeds > 0 ? afooscneeds + ' AFO/OSCs, ': '') +' '+ (hondneeds > 0 ? hondneeds + ' Hondengeleiders, ': '') +' '+ (atoneeds > 0 ? atoneeds + ' AT-Operator, ': '') +' '+ (atcneeds > 0 ? atcneeds + ' AT-Commandant, ': '') +' '+ (atmneeds > 0 ? atmneeds + ' AT-Materiaalwagen, ': '') +' '+ (meflexneeds > 0 ? meflexneeds + ' ME Groepsvoertuigen, ': '') +' '+ (meconeeds > 0 ? meconeeds + ' ME Commandovoertuigen, ': '') +' '+ (dahodneeds > 0 ? dahodneeds + ' Hoofd Officieren van Dienst, ': '') +' '+ (coneeds > 0 ? coneeds + ' Commandowagens, ': '') +' '+ (pmwvdneeds > 0 ? pmwvdneeds + ' Verkenningseenheden, ': '') +' '+ (daagsneeds > 0 ? daagsneeds + ' Adviseurs Gevaarlijke Stoffen, ': '') +' '+ (davlneeds > 0 ? davlneeds + ' Voorlichters, ': '') +' '+ (ambuneeds > 0 ? ambuneeds + ' Ambulances, ': '') +'  '+ (dbbikeneeds > 0 ? dbbikeneeds + ' Biketeams, ': '') +'</div>');
         }else{
             $('#missing_text').after('<div class="alert alert-warning" id="vehicleneeds">Alle benodigde voertuigen zijn onderweg of de benodigde voertuigen zijn nog onbekend</div>');
         }
@@ -135,6 +136,11 @@ function check_vehicle_name(vehicle_name,numbers_onway){
         case 'Noodhulpeenheden':
         case 'Noodhulpeenheid':
             nhneeds = numbers_onway - nh;
+            break;
+        case 'Biketeam':
+        case 'Biketeams':
+            nhneeds = numbers_onway - nh;
+            dbbikeneeds = numbers_onway - dbbike;
             break;
         case 'Politiehelikopter':
             polhelineeds = numbers_onway - polheli;
