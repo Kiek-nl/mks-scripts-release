@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Count and remain
 // @namespace       http://tampermonkey.net/
-// @version         1.8
+// @version         1.9
 // @description     Script om te zien welke voertuigen aanrijdend zijn en welke nog nodig zijn
 // @author          Kiek
 // @include         https://www.meldkamerspel.com/missions/*
@@ -139,7 +139,6 @@ function check_vehicle_name(vehicle_name,numbers_onway){
             break;
         case 'Biketeam':
         case 'Biketeams':
-            nhneeds = numbers_onway - nh;
             dbbikeneeds = numbers_onway - dbbike;
             break;
         case 'Politiehelikopter':
