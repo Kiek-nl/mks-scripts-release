@@ -1,14 +1,15 @@
 // ==UserScript==
 // @name            Count and remain
-// @namespace       http://tampermonkey.net/
-// @version         1.9
+// @version         1.10
+// @downloadURL     https://github.com/Kiek-nl/mks-scripts-release/raw/master/count-and-remain.user.js
+// @updateURL       https://github.com/Kiek-nl/mks-scripts-release/raw/master/count-and-remain.user.js
 // @description     Script om te zien welke voertuigen aanrijdend zijn en welke nog nodig zijn
 // @author          Kiek
 // @include         https://www.meldkamerspel.com/missions/*
 // @include         https://politie.meldkamerspel.com/missions/*
 // @grant           none
+// @namespace       
 // ==/UserScript==
-
 
 // hieronder kun je aangeven wat je wilt zien: wat er nog nodig is of wat er onderweg is
 var modeRemain = true;
@@ -127,8 +128,6 @@ if($('#mission_vehicle_driving > tbody > tr').length > 0){
             $('#missing_text').after('<div class="alert alert-warning" id="vehicleneeds">Alle benodigde voertuigen zijn onderweg of de benodigde voertuigen zijn nog onbekend</div>');
         }
     }
-}else{
-
 }
 
 function check_vehicle_name(vehicle_name,numbers_onway){
