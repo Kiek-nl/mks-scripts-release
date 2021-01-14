@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            Count and remain
-// @version         1.14
+// @version         1.15
 // @downloadURL     https://github.com/Kiek-nl/mks-scripts-release/raw/master/count-and-remain.user.js
 // @updateURL       https://github.com/Kiek-nl/mks-scripts-release/raw/master/count-and-remain.user.js
 // @description     Script om te zien welke voertuigen aanrijdend zijn en welke nog nodig zijn
@@ -288,7 +288,8 @@ function check_vehicle_type(typenumber){
     case '10':
     case '34':
     case '29':
-    case '45':
+    case '45':    
+    case '61':
         sl++;
         break;
     case '5':
@@ -335,6 +336,10 @@ function check_vehicle_type(typenumber){
     case '50':
         wo++;
         tst++;
+        break;
+    case '62':
+        tst++;
+        hv++;
         break;
     /* POL */
     case '22':
