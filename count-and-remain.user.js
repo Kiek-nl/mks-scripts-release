@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            Count and remain
-// @version         1.16
+// @version         1.17
 // @downloadURL     https://github.com/Kiek-nl/mks-scripts-release/raw/master/count-and-remain.user.js
 // @updateURL       https://github.com/Kiek-nl/mks-scripts-release/raw/master/count-and-remain.user.js
 // @description     Script om te zien welke voertuigen aanrijdend zijn en welke nog nodig zijn
@@ -63,6 +63,7 @@ var atcneeds = 0;
 var atmneeds = 0;
 var polhelineeds = 0;
 var dbbikeneeds = 0;
+var dbavneeds = 0;
 
 var tsneeds = 0;
 var rvneeds = 0;
@@ -141,7 +142,7 @@ if($('#mission_vehicle_driving > tbody > tr').length > 0){
             setmissingtextactive = setmissingtext('needs');
         }
 
-        if(nhneeds > 0 || dbbikeneeds > 0 || polhelineeds > 0 || hondneeds > 0 || atoneeds > 0 || atcneeds > 0 || atmneeds > 0 || ovdpneeds > 0 || meconeeds > 0 || meflexneeds > 0 || tsneeds > 0 || rvneeds > 0 || hvneeds > 0 || daovdneeds > 0 || dahodneeds > 0 || coneeds > 0 || abneeds > 0 || daagsneeds > 0 || pmwvdneeds > 0 || slneeds > 0 || afooscneeds > 0 || ctneeds > 0 || woneeds > 0 || woaneeds > 0 || ambuneeds > 0|| davlneeds > 0){
+        if(nhneeds > 0 || dbbikeneeds > 0 || polhelineeds > 0 || hondneeds > 0 || atoneeds > 0 || atcneeds > 0 || atmneeds > 0 || ovdpneeds > 0 || meconeeds > 0 || meflexneeds > 0 || dbavneeds > 0 || meaeneeds > 0 || tsneeds > 0 || rvneeds > 0 || hvneeds > 0 || daovdneeds > 0 || dahodneeds > 0 || coneeds > 0 || abneeds > 0 || daagsneeds > 0 || pmwvdneeds > 0 || slneeds > 0 || afooscneeds > 0 || ctneeds > 0 || woneeds > 0 || woaneeds > 0 || ambuneeds > 0|| davlneeds > 0){
             $('#missing_text').after('<div class="alert alert-warning" id="vehicleneeds">Voertuigen nodig: '+ setmissingtextactive +'</div>');
         }else{
             $('#missing_text').after('<div class="alert alert-warning" id="vehicleneeds">Alle benodigde voertuigen zijn onderweg of de benodigde voertuigen zijn nog onbekend</div>');
@@ -215,6 +216,8 @@ function check_vehicle_name(vehicle_name,numbers_onway){
             break;
         case "ME Groepsvoertuigen":
         case "ME Groepsvoertuig":
+        case "ME Flexbussen":
+        case "ME Flexbus":
             meflexneeds = numbers_onway - meflex;
             break;
         case "ME Commandovoertuigen":
@@ -543,9 +546,9 @@ function setmissingtext(showtype){
     }
     if(meflexneeds > 0){
       if(meflexneeds > 1){
-        missiontext += meflexneeds + " ME Groepsvoertuigen, ";
+        missiontext += meflexneeds + " ME Flexbussen, ";
       }else{
-        missiontext += meflexneeds + ' ME Groepsvoertuig, ';
+        missiontext += meflexneeds + ' ME Flexbus, ';
       }
     }
     if(meconeeds > 0){
@@ -555,6 +558,22 @@ function setmissingtext(showtype){
         missiontext += meconeeds + ' ME Commandovoertuig, ';
       }
     }
+    if(dbavneeds > 0){
+        if(dbavneeds > 1){
+          missiontext += dbavneeds + " Dienstbus Arrestantenvervoer, ";
+        }else{
+          missiontext += dbavneeds + ' Dienstbus Arrestantenvervoer, ';
+        }
+      }
+      if(meaeneeds > 0){
+        if(meaeneeds > 1){
+          missiontext += meaeneeds + " Aanhoudingseenheden, ";
+        }else{
+          missiontext += meaeneeds + ' Aanhoudingseenheid, ';
+        }
+    }
+
+
     if(dahodneeds > 0){
       if(dahodneeds > 1){
         missiontext += dahodneeds + " Hoofd Officieren van Dienst, ";
@@ -728,11 +747,12 @@ function setmissingtext(showtype){
         missiontext += atm + ' AT-Materiaalwagen, ';
       }
     }
+    
     if(meflex > 0){
       if(meflex > 1){
-        missiontext += meflex + " ME Groepsvoertuigen, ";
+        missiontext += meflex + " ME Flexbussen, ";
       }else{
-        missiontext += meflex + ' ME Groepsvoertuig, ';
+        missiontext += meflex + ' ME Flexbus, ';
       }
     }
     if(meco > 0){
@@ -742,6 +762,22 @@ function setmissingtext(showtype){
         missiontext += meco + ' ME Commandovoertuig, ';
       }
     }
+    if(dbav > 0){
+        if(dbav > 1){
+          missiontext += dbav + " Dienstbus Arrestantenvervoer, ";
+        }else{
+          missiontext += dbav + ' Dienstbus Arrestantenvervoer, ';
+        }
+      }
+    if(meae > 0){
+        if(meae > 1){
+            missiontext += meae + " Aanhoudingseenheden, ";
+        }else{
+            missiontext += meae + ' Aanhoudingseenheid, ';
+        }
+    }
+
+
     if(dahod > 0){
       if(dahodneeds > 1){
         missiontext += dahod + " Hoofd Officieren van Dienst, ";
@@ -783,13 +819,6 @@ function setmissingtext(showtype){
         missiontext += dbbike + " Biketeams, ";
       }else{
         missiontext += dbbike + ' Biketeam, ';
-      }
-    }
-    if(dbav > 0){
-      if(dbav > 1){
-        missiontext += dbav + " Dienstbussen Arrestantenvervoer, ";
-      }else{
-        missiontext += dbav + ' Dienstbus Arrestantenvervoer, ';
       }
     }
 
