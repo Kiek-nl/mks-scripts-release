@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            Count and remain
-// @version         1.15
+// @version         1.16
 // @downloadURL     https://github.com/Kiek-nl/mks-scripts-release/raw/master/count-and-remain.user.js
 // @updateURL       https://github.com/Kiek-nl/mks-scripts-release/raw/master/count-and-remain.user.js
 // @description     Script om te zien welke voertuigen aanrijdend zijn en welke nog nodig zijn
@@ -36,6 +36,7 @@ var woa = 0;
 var nh = 0;
 var meflex = 0;
 var meco = 0;
+var meae = 0;
 var hond = 0;
 var ovdp = 0;
 var ato = 0;
@@ -55,6 +56,7 @@ var nhneeds = 0;
 var ovdpneeds = 0;
 var meflexneeds = 0;
 var meconeeds = 0;
+var meaeneeds = 0;
 var hondneeds = 0;
 var atoneeds = 0;
 var atcneeds = 0;
@@ -219,6 +221,10 @@ function check_vehicle_name(vehicle_name,numbers_onway){
         case "ME Commandovoertuig":
             meconeeds = numbers_onway - meco;
             break;
+        case "Aanhoudingseenheid":
+        case "Aanhoudingseenheden":
+            meaeneeds = numbers_onway - meae;
+            break;
         case "Hoofd Officieren van Dienst":
         case "Hoofd Officier van Dienst":
             dahodneeds = numbers_onway - dahod;
@@ -367,7 +373,10 @@ function check_vehicle_type(typenumber){
     case '40':
         meflex++;
         break;
-
+     case '64':
+        meae++;
+        break;
+          
     case '28':
         polheli++;
         break;
