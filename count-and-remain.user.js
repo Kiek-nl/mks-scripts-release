@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            Count and remain
-// @version         1.17
+// @version         1.18
 // @downloadURL     https://github.com/Kiek-nl/mks-scripts-release/raw/master/count-and-remain.user.js
 // @updateURL       https://github.com/Kiek-nl/mks-scripts-release/raw/master/count-and-remain.user.js
 // @description     Script om te zien welke voertuigen aanrijdend zijn en welke nog nodig zijn
@@ -265,6 +265,10 @@ function check_vehicle_name(vehicle_name,numbers_onway){
         case "Ambulances":
         case "Ambulance":
             ambuneeds = numbers_onway - ambu;
+            break;
+            
+        case "Dienstbus Arrestantenvervoer":
+            dbavneeds = numbers_onway - dbav;
             break;
 
     }
