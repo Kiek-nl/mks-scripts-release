@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            Count and remain
-// @version         1.19
+// @version         1.20
 // @downloadURL     https://github.com/Kiek-nl/mks-scripts-release/raw/master/count-and-remain.user.js
 // @updateURL       https://github.com/Kiek-nl/mks-scripts-release/raw/master/count-and-remain.user.js
 // @description     Script om te zien welke voertuigen aanrijdend zijn en welke nog nodig zijn
@@ -8,7 +8,7 @@
 // @include         https://www.meldkamerspel.com/*
 // @include         https://politie.meldkamerspel.com/*
 // @grant           none
-// @namespace       
+// @namespace
 // ==/UserScript==
 
 setlocalstorageitems();
@@ -52,6 +52,8 @@ var rr = 0;
 var ovdg = 0;
 var mmt = 0;
 
+var strandvec = 0;
+
 var nhneeds = 0;
 var ovdpneeds = 0;
 var meflexneeds = 0;
@@ -80,6 +82,8 @@ var afooscneeds = 0;
 var ctneeds = 0;
 var woneeds = 0;
 var woaneeds = 0;
+
+var strandvecneeds = 0;
 
 var ambuneeds = 0;
 
@@ -142,7 +146,7 @@ if($('#mission_vehicle_driving > tbody > tr').length > 0){
             setmissingtextactive = setmissingtext('needs');
         }
 
-        if(nhneeds > 0 || dbbikeneeds > 0 || polhelineeds > 0 || hondneeds > 0 || atoneeds > 0 || atcneeds > 0 || atmneeds > 0 || ovdpneeds > 0 || meconeeds > 0 || meflexneeds > 0 || dbavneeds > 0 || meaeneeds > 0 || tsneeds > 0 || rvneeds > 0 || hvneeds > 0 || daovdneeds > 0 || dahodneeds > 0 || coneeds > 0 || abneeds > 0 || daagsneeds > 0 || pmwvdneeds > 0 || slneeds > 0 || afooscneeds > 0 || ctneeds > 0 || woneeds > 0 || woaneeds > 0 || ambuneeds > 0|| davlneeds > 0){
+        if(nhneeds > 0 || dbbikeneeds > 0 || polhelineeds > 0 || hondneeds > 0 || atoneeds > 0 || atcneeds > 0 || atmneeds > 0 || ovdpneeds > 0 || meconeeds > 0 || meflexneeds > 0 || dbavneeds > 0 || meaeneeds > 0 || tsneeds > 0 || rvneeds > 0 || hvneeds > 0 || daovdneeds > 0 || dahodneeds > 0 || coneeds > 0 || abneeds > 0 || daagsneeds > 0 || pmwvdneeds > 0 || slneeds > 0 || afooscneeds > 0 || ctneeds > 0 || strandvecneeds > 0 || woneeds > 0 || woaneeds > 0 || ambuneeds > 0|| davlneeds > 0){
             $('#missing_text').after('<div class="alert alert-warning" id="vehicleneeds">Voertuigen nodig: '+ setmissingtextactive +'</div>');
         }else{
             $('#missing_text').after('<div class="alert alert-warning" id="vehicleneeds">Alle benodigde voertuigen zijn onderweg of de benodigde voertuigen zijn nog onbekend</div>');
@@ -152,6 +156,7 @@ if($('#mission_vehicle_driving > tbody > tr').length > 0){
 }
 
 function check_vehicle_name(vehicle_name,numbers_onway){
+
     switch(vehicle_name){
         case 'Noodhulpeenheden':
         case 'Noodhulpeenheid':
@@ -267,11 +272,20 @@ function check_vehicle_name(vehicle_name,numbers_onway){
         case "Ambulance":
             ambuneeds = numbers_onway - ambu;
             break;
-            
+
         case "Dienstbus Arrestantenvervoer":
             dbavneeds = numbers_onway - dbav;
             break;
 
+        case "Strandvoertuigen":
+        case "strandvoertuigen":
+        case "Strandvoertuig":
+        case "strandvoertuig":
+            strandvecneeds = numbers_onway - strandvec;
+                        console.log(numbers_onway);
+            console.log(strandvec);
+            console.log(strandvecneeds);
+            break;
     }
 }
 
@@ -302,7 +316,7 @@ function check_vehicle_type(typenumber){
     case '10':
     case '34':
     case '29':
-    case '45':    
+    case '45':
     case '61':
         sl++;
         break;
@@ -341,6 +355,7 @@ function check_vehicle_type(typenumber){
         break;
     /* Water*/
     case '36':
+    case '67':
         woa++;
         break;
     case '33':
@@ -384,7 +399,7 @@ function check_vehicle_type(typenumber){
      case '64':
         meae++;
         break;
-          
+
     case '28':
         polheli++;
         break;
@@ -422,6 +437,11 @@ function check_vehicle_type(typenumber){
     case '23':
     case '37':
         mmt++;
+        break;
+    /* water */
+    case '65':
+    case '66':
+        strandvec++;
         break;
   }
 }
@@ -486,6 +506,15 @@ function setmissingtext(showtype){
         missiontext += slneeds + ' Slangenwagen, watertankwagen of gelijkwaardige haakarmbak, ';
       }
     }
+
+    if(strandvecneeds > 0){
+      if(strandvecneeds > 1){
+        missiontext += strandvecneeds + ' Strandvoertuigen, ';
+      }else{
+        missiontext += strandvecneeds + ' Strandvoertuig, ';
+      }
+    }
+
     if(woneeds > 0){
       if(woneeds > 1){
         missiontext += woneeds + ' Waterongevallenvoertuigen / Oppervlaktereddingsteams, ';
@@ -689,6 +718,15 @@ function setmissingtext(showtype){
         missiontext += sl + ' Slangenwagen, watertankwagen of gelijkwaardige haakarmbak, ';
       }
     }
+
+    if(strandvec > 0){
+      if(strandvec > 1){
+        missiontext += strandvec + ' Strandvoertuig, ';
+      }else{
+        missiontext += strandvec + ' Strandvoertuigen, ';
+      }
+    }
+
     if(wo > 0){
       if(wo > 1){
         missiontext += wo + ' Waterongevallenvoertuigen / Oppervlaktereddingsteams, ';
@@ -752,7 +790,7 @@ function setmissingtext(showtype){
         missiontext += atm + ' AT-Materiaalwagen, ';
       }
     }
-    
+
     if(meflex > 0){
       if(meflex > 1){
         missiontext += meflex + " ME Flexbussen, ";
