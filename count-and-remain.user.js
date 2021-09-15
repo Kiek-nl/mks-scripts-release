@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            Count and remain
-// @version         1.20
+// @version         1.21
 // @downloadURL     https://github.com/Kiek-nl/mks-scripts-release/raw/master/count-and-remain.user.js
 // @updateURL       https://github.com/Kiek-nl/mks-scripts-release/raw/master/count-and-remain.user.js
 // @description     Script om te zien welke voertuigen aanrijdend zijn en welke nog nodig zijn
@@ -188,6 +188,7 @@ function check_vehicle_name(vehicle_name,numbers_onway){
             break;
         case 'Adembeschermingsvoertuig of haakarmbak':
         case 'Adembeschermingsvoertuig of haakarmbak':
+        case 'AB':
             abneeds = numbers_onway - ab;
             break;
         case 'Slangenwagen':
@@ -494,9 +495,9 @@ function setmissingtext(showtype){
     }
     if(abneeds > 0){
       if(abneeds > 1){
-        missiontext += abneeds + ' Adembeschermingsvoertuigen of haakarmbaken, ';
+        missiontext += abneeds + ' AB, ';
       }else{
-        missiontext += abneeds + ' Adembeschermingsvoertuig of haakarmbak, ';
+        missiontext += abneeds + ' AB, ';
       }
     }
     if(slneeds > 0){
@@ -706,9 +707,9 @@ function setmissingtext(showtype){
     }
     if(ab > 0){
       if(ab > 1){
-        missiontext += ab + ' Adembeschermingsvoertuigen of haakarmbaken, ';
+        missiontext += ab + ' AB, ';
       }else{
-        missiontext += ab + ' Adembeschermingsvoertuig of haakarmbak, ';
+        missiontext += ab + ' AB, ';
       }
     }
     if(sl > 0){
