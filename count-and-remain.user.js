@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            Count and remain
-// @version         1.22
+// @version         1.23
 // @downloadURL     https://github.com/Kiek-nl/mks-scripts-release/raw/master/count-and-remain.user.js
 // @updateURL       https://github.com/Kiek-nl/mks-scripts-release/raw/master/count-and-remain.user.js
 // @description     Script om te zien welke voertuigen aanrijdend zijn en welke nog nodig zijn
@@ -33,6 +33,7 @@ var ct = 0;
 var wo = 0;
 var woa = 0;
 var sb = 0;
+var pomp = 0;
     
 var nh = 0;
 var meflex = 0;
@@ -84,6 +85,7 @@ var ctneeds = 0;
 var woneeds = 0;
 var woaneeds = 0;
 var sbneeds = 0;
+var pompneeds = 0;    
     
 var strandvecneeds = 0;
 
@@ -148,7 +150,7 @@ if($('#mission_vehicle_driving > tbody > tr').length > 0){
             setmissingtextactive = setmissingtext('needs');
         }
 
-        if(nhneeds > 0 || dbbikeneeds > 0 || polhelineeds > 0 || hondneeds > 0 || atoneeds > 0 || atcneeds > 0 || atmneeds > 0 || ovdpneeds > 0 || meconeeds > 0 || meflexneeds > 0 || dbavneeds > 0 || meaeneeds > 0 || tsneeds > 0 || rvneeds > 0 || hvneeds > 0 || daovdneeds > 0 || dahodneeds > 0 || coneeds > 0 || abneeds > 0 || daagsneeds > 0 || pmwvdneeds > 0 || slneeds > 0 || afooscneeds > 0 || ctneeds > 0 || strandvecneeds > 0 || woneeds > 0 || woaneeds > 0 || ambuneeds > 0|| davlneeds > 0 || sbneeds > 0){
+        if(nhneeds > 0 || dbbikeneeds > 0 || polhelineeds > 0 || hondneeds > 0 || atoneeds > 0 || atcneeds > 0 || atmneeds > 0 || ovdpneeds > 0 || meconeeds > 0 || meflexneeds > 0 || dbavneeds > 0 || meaeneeds > 0 || tsneeds > 0 || rvneeds > 0 || hvneeds > 0 || daovdneeds > 0 || dahodneeds > 0 || coneeds > 0 || abneeds > 0 || daagsneeds > 0 || pmwvdneeds > 0 || slneeds > 0 || afooscneeds > 0 || ctneeds > 0 || strandvecneeds > 0 || woneeds > 0 || woaneeds > 0 || ambuneeds > 0|| davlneeds > 0 || sbneeds > 0 || pompneeds > 0){
             $('#missing_text').after('<div class="alert alert-warning" id="vehicleneeds">Voertuigen nodig: '+ setmissingtextactive +'</div>');
         }else{
             $('#missing_text').after('<div class="alert alert-warning" id="vehicleneeds">Alle benodigde voertuigen zijn onderweg of de benodigde voertuigen zijn nog onbekend</div>');
@@ -289,6 +291,10 @@ function check_vehicle_name(vehicle_name,numbers_onway){
         case "strandvoertuig":
             strandvecneeds = numbers_onway - strandvec;
             break;
+        case "Pompvoertuigen":
+        case "Pompvoertuig":
+            pompneeds = numbers_onway - pomp;
+            break;
     }
 }
 
@@ -356,6 +362,10 @@ function check_vehicle_type(typenumber){
     case '43':
         ct++;
         sb++;
+        break;
+    case '71':
+    case '72':
+        pomp++;
         break;
     /* Water*/
     case '36':
@@ -653,6 +663,14 @@ function setmissingtext(showtype){
         missiontext += davlneeds + ' Voorlichter, ';
       }
     }
+    if(pompneeds > 0){
+      if(pompneeds > 1){
+        missiontext += pompneeds + " Pompvoertuigen, ";
+      }else{
+        missiontext += pompneeds + ' Pompvoertuig, ';
+      }
+    }      
+  
     //if(localStorage.getItem('modeShowambuown') == 'off'){
       if(ambuneeds > 0){
         if(ambuneeds > 1){
