@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name            Count and remain
-// @version         1.23
+// @version         1.24
 // @downloadURL     https://github.com/Kiek-nl/mks-scripts-release/raw/master/count-and-remain.user.js
 // @updateURL       https://github.com/Kiek-nl/mks-scripts-release/raw/master/count-and-remain.user.js
 // @description     Script om te zien welke voertuigen aanrijdend zijn en welke nog nodig zijn
 // @author          Kiek
-// @include         https://www.meldkamerspel.com/*
-// @include         https://politie.meldkamerspel.com/*
+// @match           https://www.meldkamerspel.com/*
+// @match           https://politie.meldkamerspel.com/*
 // @grant           none
 // @namespace
 // ==/UserScript==
@@ -34,7 +34,7 @@ var wo = 0;
 var woa = 0;
 var sb = 0;
 var pomp = 0;
-    
+
 var nh = 0;
 var meflex = 0;
 var meco = 0;
@@ -46,7 +46,8 @@ var atc = 0;
 var atm = 0;
 var polheli = 0;
 var dbbike = 0;
-var dbav = 0
+var dbav = 0;
+var horsebb = 0;
 
 var ambu = 0;
 var zambu = 0;
@@ -68,6 +69,7 @@ var atmneeds = 0;
 var polhelineeds = 0;
 var dbbikeneeds = 0;
 var dbavneeds = 0;
+var horsebbneeds = 0;
 
 var tsneeds = 0;
 var rvneeds = 0;
@@ -85,8 +87,8 @@ var ctneeds = 0;
 var woneeds = 0;
 var woaneeds = 0;
 var sbneeds = 0;
-var pompneeds = 0;    
-    
+var pompneeds = 0;
+
 var strandvecneeds = 0;
 
 var ambuneeds = 0;
@@ -95,13 +97,13 @@ if($('#mission_vehicle_driving > tbody > tr').length > 0){
 
     $('#mission_vehicle_driving > tbody > tr').each(function() {
       var getvehicletypeid = $(this).find("td:eq(1) a").attr('vehicle_type_id');
-
+      var getPersonsVehicles = $(this).find("td:eq(4)").text();
       if( $(this).find("td:eq(3)").attr('id') === undefined){
         if(localStorage.getItem('modeFromothermissionshow') == 'on'){
-          check_vehicle_type(getvehicletypeid);
+          check_vehicle_type(getvehicletypeid,getPersonsVehicles);
         }
       }else{
-          check_vehicle_type(getvehicletypeid);
+          check_vehicle_type(getvehicletypeid,getPersonsVehicles);
       }
     });
 
@@ -150,7 +152,7 @@ if($('#mission_vehicle_driving > tbody > tr').length > 0){
             setmissingtextactive = setmissingtext('needs');
         }
 
-        if(nhneeds > 0 || dbbikeneeds > 0 || polhelineeds > 0 || hondneeds > 0 || atoneeds > 0 || atcneeds > 0 || atmneeds > 0 || ovdpneeds > 0 || meconeeds > 0 || meflexneeds > 0 || dbavneeds > 0 || meaeneeds > 0 || tsneeds > 0 || rvneeds > 0 || hvneeds > 0 || daovdneeds > 0 || dahodneeds > 0 || coneeds > 0 || abneeds > 0 || daagsneeds > 0 || pmwvdneeds > 0 || slneeds > 0 || afooscneeds > 0 || ctneeds > 0 || strandvecneeds > 0 || woneeds > 0 || woaneeds > 0 || ambuneeds > 0|| davlneeds > 0 || sbneeds > 0 || pompneeds > 0){
+        if(horsebbneeds > 0 || nhneeds > 0 || dbbikeneeds > 0 || polhelineeds > 0 || hondneeds > 0 || atoneeds > 0 || atcneeds > 0 || atmneeds > 0 || ovdpneeds > 0 || meconeeds > 0 || meflexneeds > 0 || dbavneeds > 0 || meaeneeds > 0 || tsneeds > 0 || rvneeds > 0 || hvneeds > 0 || daovdneeds > 0 || dahodneeds > 0 || coneeds > 0 || abneeds > 0 || daagsneeds > 0 || pmwvdneeds > 0 || slneeds > 0 || afooscneeds > 0 || ctneeds > 0 || strandvecneeds > 0 || woneeds > 0 || woaneeds > 0 || ambuneeds > 0|| davlneeds > 0 || sbneeds > 0 || pompneeds > 0){
             $('#missing_text').after('<div class="alert alert-warning" id="vehicleneeds">Voertuigen nodig: '+ setmissingtextactive +'</div>');
         }else{
             $('#missing_text').after('<div class="alert alert-warning" id="vehicleneeds">Alle benodigde voertuigen zijn onderweg of de benodigde voertuigen zijn nog onbekend</div>');
@@ -160,11 +162,14 @@ if($('#mission_vehicle_driving > tbody > tr').length > 0){
 }
 
 function check_vehicle_name(vehicle_name,numbers_onway){
-
     switch(vehicle_name){
         case 'Noodhulpeenheden':
         case 'Noodhulpeenheid':
             nhneeds = numbers_onway - nh;
+            break;
+        case 'Bereden Brigade eenheid (paard)':
+        case 'Bereden Brigade eenheden (paarden)':
+            horsebbneeds = numbers_onway - horsebb;
             break;
         case 'Biketeam':
         case 'Biketeams':
@@ -298,7 +303,7 @@ function check_vehicle_name(vehicle_name,numbers_onway){
     }
 }
 
-function check_vehicle_type(typenumber){
+function check_vehicle_type(typenumber,personsVehicle = 0){
   switch(typenumber){
     /* BRW */
     case '0':
@@ -388,8 +393,8 @@ function check_vehicle_type(typenumber){
     case '69':
     case '70':
         sb++;
-        break;         
-          
+        break;
+
     /* POL */
     case '22':
     case '25':
@@ -463,6 +468,16 @@ function check_vehicle_type(typenumber){
     case '66':
         strandvec++;
         break;
+
+      case '73':
+          horsebb = horsebb + Number(personsVehicle);
+          //horsebb++;
+          break;
+      case '74':
+          horsebb++;
+           horsebb++;
+       break;
+
   }
 }
 
@@ -669,8 +684,8 @@ function setmissingtext(showtype){
       }else{
         missiontext += pompneeds + ' Pompvoertuig, ';
       }
-    }      
-  
+    }
+
     //if(localStorage.getItem('modeShowambuown') == 'off'){
       if(ambuneeds > 0){
         if(ambuneeds > 1){
@@ -680,6 +695,13 @@ function setmissingtext(showtype){
         }
       }
     //}
+    if(horsebbneeds > 0){
+      if(horsebbneeds > 1){
+        missiontext += horsebbneeds + " Bereden Brigade eenheden (paarden), ";
+      }else{
+        missiontext += horsebbneeds + ' Bereden Brigade eenheid (paard), ';
+      }
+    }
     if(dbbikeneeds > 0){
       if(dbbikeneeds > 1){
         missiontext += dbbikeneeds + " Biketeams, ";
@@ -892,6 +914,14 @@ function setmissingtext(showtype){
       }
     }
 
+    if(horsebb > 0){
+      if(horsebb > 1){
+        missiontext += horsebb + " Bereden Brigade eenheden (paarden), ";
+      }else{
+        missiontext += horsebb + ' Bereden Brigade eenheid (paard), ';
+      }
+    }
+
     if(dbbike > 0){
       if(dbbike > 1){
         missiontext += dbbike + " Biketeams, ";
@@ -899,7 +929,7 @@ function setmissingtext(showtype){
         missiontext += dbbike + ' Biketeam, ';
       }
     }
-      
+
     if(sb > 0){
       if(sb > 1){
         missiontext += sb + " schuimblusvoertuigen, ";
@@ -907,7 +937,7 @@ function setmissingtext(showtype){
         missiontext += sb + ' schuimblusvoertuig, ';
       }
     }
-      
+
     if(ambu > 0){
       if(ambu > 1){
         missiontext_genees += ambu + " Ambulances, ";
